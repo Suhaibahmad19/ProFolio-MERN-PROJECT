@@ -37,7 +37,7 @@ export const addNewApplication = catchAsyncErrors(async (req, res, next) => {
 export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
   const applications = await Timeline.find();
   if (!applications) {
-    return next(new errorHandler("No applications found", 404));
+    return next(new errorHandler("No applications found", 400));
   }
   res.status(200).json({
     success: true,
@@ -49,7 +49,7 @@ export const deleteApplication = catchAsyncErrors(async (req, res, next) => {
   const application = await softwareApplication.findById(id);
 
   if (!application) {
-    return next(new errorHandler("Software application not found", 404));
+    return next(new errorHandler("Software application not found", 400));
   }
   const cloudinarysvgid = application.svg.public_id;
   const cloudinarysvg = await cloudinary.uploader.destroy(cloudinarysvgid);

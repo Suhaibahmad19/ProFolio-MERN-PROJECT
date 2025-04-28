@@ -192,7 +192,7 @@ export const getProfileForPortfolio = catchAsyncErrors(
     const id = "680f5da374f1f0a380694f15";
     const user = await User.findById(id);
     if (!user) {
-      return next(new errorHandler("User not found", 404));
+      return next(new errorHandler("User not found", 400));
     }
     res.status(200).json({
       success: true,
@@ -208,7 +208,7 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
   }
   const user = await User.findOne({ email });
   if (!user) {
-    return next(new errorHandler("User not found", 404));
+    return next(new errorHandler("User not found", 400));
   }
   const resetToken = user.getResetPasswordToken();
   await user.save({ validateBeforeSave: false });

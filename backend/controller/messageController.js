@@ -30,7 +30,7 @@ export const deleteMessage = catchAsyncErrors(async (req, res, next) => {
   const { id } = req.params;
   const messageToDelete = await Message.findById(id);
   if (!messageToDelete) {
-    return next(new ErrorHandler("Message not found", 404));
+    return next(new ErrorHandler("Message not found", 400));
   }
   await messageToDelete.deleteOne();
   res.status(200).json({

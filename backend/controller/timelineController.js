@@ -24,7 +24,7 @@ export const postTimeline = catchAsyncErrors(async (req, res, next) => {
 export const getAllTimeline = catchAsyncErrors(async (req, res, next) => {
   const timelines = await Timeline.find();
   if (!timelines) {
-    return next(new errorHandler("No timelines found", 404));
+    return next(new errorHandler("No timelines found", 400));
   }
   res.status(200).json({
     success: true,
@@ -36,7 +36,7 @@ export const deleteTimeline = catchAsyncErrors(async (req, res, next) => {
   const { id } = req.params;
   const timeline = await Timeline.findByIdAndDelete(id);
   if (!timeline) {
-    return next(new errorHandler("Timeline not found", 404));
+    return next(new errorHandler("Timeline not found", 400));
   }
   await timeline.deleteOne();
 
