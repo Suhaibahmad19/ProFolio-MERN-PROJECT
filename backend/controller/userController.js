@@ -63,7 +63,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
       URL: cloudinaryResume.secure_url,
     },
   });
-  generateToken(user, "User registered successfully", 201, res);
+  generateToken(user, "User registered successfully", 200, res);
 });
 
 export const login = catchAsyncErrors(async (req, res, next) => {
@@ -76,12 +76,12 @@ export const login = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findOne({ email }).select("+password");
 
   if (!user) {
-    return next(new errorHandler("searched Invalid email or password", 401));
+    return next(new errorHandler("searched Invalid email or password", 400));
   }
   const isPasswordMatched = await user.comparePassword(password);
 
   if (!isPasswordMatched) {
-    return next(new errorHandler("Invalid email or password", 401));
+    return next(new errorHandler("Invalid email or password", 400));
   }
   generateToken(user, "User logged in successfully", 200, res);
 });
