@@ -229,7 +229,7 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
     await user.save();
-    return next(new errorHandler(error.message, 500));
+    return next(new errorHandler(error.message, 400));
   }
 });
 export const resetPassword = catchAsyncErrors(async (req, res, next) => {

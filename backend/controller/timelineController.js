@@ -15,8 +15,9 @@ export const postTimeline = catchAsyncErrors(async (req, res, next) => {
   if (!timeline) {
     return next(new errorHandler("Timeline not created", 400));
   }
-  res.status(201).json({
+  res.status(200).json({
     success: true,
+    message: "Timeline created successfully",
     timeline,
   });
 });

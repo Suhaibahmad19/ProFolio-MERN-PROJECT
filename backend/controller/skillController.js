@@ -27,7 +27,7 @@ export const addNewSkill = catchAsyncErrors(async (req, res, next) => {
     proficiency,
   });
   if (!application) {
-    return next(new errorHandler("Error addinging software application", 500));
+    return next(new errorHandler("Error addinging software application", 400));
   }
   res.status(200).json({
     success: true,
