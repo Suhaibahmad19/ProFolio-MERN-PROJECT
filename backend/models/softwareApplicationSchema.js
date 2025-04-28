@@ -15,7 +15,6 @@ const softwareApplicationSchema = new mongoose.Schema({
       required: true,
     },
   },
-  proficiency: String,
 });
 
 export const softwareApplication = mongoose.model(

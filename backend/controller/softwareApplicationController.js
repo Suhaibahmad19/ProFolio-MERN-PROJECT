@@ -8,7 +8,7 @@ export const addNewApplication = catchAsyncErrors(async (req, res, next) => {
     return next(new errorHandler("SVG/Icon of softwareis required", 400));
   }
   const { svg } = req.files;
-  const { name, proficiency } = req.body;
+  const { name } = req.body;
   if (!name) {
     return next(new errorHandler("Name of software is required", 400));
   }
@@ -20,7 +20,6 @@ export const addNewApplication = catchAsyncErrors(async (req, res, next) => {
   }
   const application = await softwareApplication.create({
     name,
-    proficiency,
     svg: {
       public_id: cloudinarysvg.public_id,
       url: cloudinarysvg.secure_url,
