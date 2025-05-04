@@ -12,7 +12,6 @@ This README provides a detailed guide to setting up and using this MERN (MongoDB
     - [Running the Backend](#running-the-backend)
 4.  [Frontend Setup](#frontend-setup)
     - [Installation](#frontend-installation)
-    - [Environment Variables](#frontend-environment-variables)
     - [Running the Frontend](#running-the-frontend)
 5.  [Database Setup](#database-setup)
 6.  [Usage](#usage)
@@ -116,21 +115,6 @@ Follow these steps to set up the frontend of the application.
 
     This command reads the `package.json` file and installs all the frontend dependencies (e.g., `react`, `react-dom`, `react-router-dom`, `@mui/material`, etc.).
 
-### Frontend Environment Variables
-
-1.  In the `frontend` directory, create a new file named `.env`. **Note:** For React applications, environment variables accessed in the browser need to be prefixed with `REACT_APP_`.
-
-2.  Open the `.env` file and add the following environment variables. **Replace the placeholder values with your actual configurations.**
-
-    ```env
-    REACT_APP_API_BASE_URL=http://localhost:4000/user  # The base URL of your backend API for user-related routes.
-                                                    # Adjust if your backend is running on a different host or port,
-                                                    # or if you have a different base URL.
-    # Add any other frontend-specific environment variables here, for example:
-    # REACT_APP_GOOGLE_MAPS_API_KEY=YOUR_API_KEY
-    ```
-
-    **Important:** Keep your `.env` file secure and do not commit it to version control (it's usually included in `.gitignore`).
 
 ### Running the Frontend
 
