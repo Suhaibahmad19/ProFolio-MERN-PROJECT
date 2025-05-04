@@ -16,7 +16,7 @@ This README provides a detailed guide to setting up and using this MERN (MongoDB
 5.  [Database Setup](#database-setup)
 6.  [Usage](#usage)
     - [Accessing the Website](#accessing-the-website)
-    - [Key Features](#key-features)
+
 
 ## 1. Prerequisites
 
@@ -148,14 +148,3 @@ Once both the backend and frontend servers are running:
 
 - Open your web browser and go to the address where the frontend is running (usually `http://localhost:3000`).
 - The frontend will interact with the backend API endpoints (defined in your `backend/routes/user.js` and potentially other route files) to handle user registration, login, profile management, and fetching portfolio information. If you have implemented the message sending functionality, the frontend will also interact with the appropriate backend message routes.
-
-### Key Features
-
-Based on the provided backend routes, key features of this website likely include:
-
-- **User Authentication:** Registration (`/user/register`) and login (`/user/login`).
-- **User Session Management:** Logout (`/user/logout`).
-- **User Profile:** Getting user details (`/user/profile`), updating profile information (`/user/update/profile`), and changing password (`/user/update/password`).
-- **Public Portfolio View:** Fetching a user's profile information for a public portfolio (`/user/profile-portfolio`).
-- **Password Recovery:** Initiating the forgot password process (`/user/password/forgot`) and resetting the password using a token (`/user/password/reset/:token`).
-- **Message Management (if implemented):** Sending messages (to a backend endpoint like `/message/send`) and viewing/deleting messages (likely on an admin interface using `/message/getall` and `/message/delete/:id`).
