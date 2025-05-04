@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const skillSchema = new mongoose.Schema({
-  tile: {
+  title: {
     type: String,
   },
   proficiency: {

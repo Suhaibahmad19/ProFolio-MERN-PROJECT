@@ -4,6 +4,7 @@ import { User } from "../models/userSchema.js";
 import { v2 as cloudinary } from "cloudinary";
 import { generateToken } from "../utils/jwtTokens.js";
 import { sendEmail } from "../utils/sendEmail.js";
+import crypto from "crypto";
 
 export const register = catchAsyncErrors(async (req, res, next) => {
   if (!req.files || Object.keys(req.files).length === 0) {
@@ -109,7 +110,7 @@ export const getUser = catchAsyncErrors(async (req, res, next) => {
 });
 
 export const updateProfile = catchAsyncErrors(async (req, res, next) => {
-  newUserData = {
+  let newUserData = {
     name: req.body.name,
     email: req.body.email,
     phone: req.body.phone,
@@ -158,11 +159,25 @@ export const updateProfile = catchAsyncErrors(async (req, res, next) => {
     runValidators: true,
     useFindAndModify: false,
   });
-  req.status(200).json({
+  res.status(200).json({
     success: true,
     message: "Profile updated successfully",
   });
 });
+
+export const getProfileForPortfolio = catchAsyncErrors(
+  async (req, res, next) => {
+    const id = "680f5da374f1f0a380694f15";
+    const user = await User.findById(id);
+    if (!user) {
+      return next(new errorHandler("User not found", 400));
+    }
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  }
+);
 
 export const changePassword = catchAsyncErrors(async (req, res, next) => {
   const { oldPassword, newPassword, confirmNewPassword } = req.body;
@@ -186,21 +201,6 @@ export const changePassword = catchAsyncErrors(async (req, res, next) => {
 
   generateToken(user, "Password changed successfully", 200, res);
 });
-
-export const getProfileForPortfolio = catchAsyncErrors(
-  async (req, res, next) => {
-    const id = "680f5da374f1f0a380694f15";
-    const user = await User.findById(id);
-    if (!user) {
-      return next(new errorHandler("User not found", 400));
-    }
-    res.status(200).json({
-      success: true,
-      user,
-    });
-  }
-);
-
 export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const { email } = req.body;
   if (!email) {
@@ -212,6 +212,11 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
   }
   const resetToken = user.getResetPasswordToken();
   await user.save({ validateBeforeSave: false });
+  console.log(
+    "User after forgotPassword save:",
+    user.resetPasswordToken,
+    user.resetPasswordExpire
+  ); // Log resetToken and expire
   const resetUrl = `${process.env.DASHBOARD_URL}/password/reset/${resetToken}`;
   const message = `Your password reset token is as follow:\n\n ${resetUrl} \n\n If you have not requested this email, then ignore it. `;
 
@@ -234,14 +239,18 @@ export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
 });
 export const resetPassword = catchAsyncErrors(async (req, res, next) => {
   const { token } = req.params;
-  const resetPasswordToken = crypto
+  console.log("Token from URL:", token); // Log token from URL
+  const resetPasswordTokenFromURL = crypto
     .createHash("sha256")
     .update(token)
     .digest("hex");
+  console.log("Hashed token from URL:", resetPasswordTokenFromURL); // Log hashed token
   const user = await User.findOne({
-    resetPasswordToken,
+    resetPasswordToken: resetPasswordTokenFromURL,
     resetPasswordExpire: { $gt: Date.now() },
   });
+  console.log("User found (or not):", user); // Log the user object
+
   if (!user) {
     return next(
       new errorHandler("Reset password token is invalid or has expired", 400)
@@ -253,6 +262,7 @@ export const resetPassword = catchAsyncErrors(async (req, res, next) => {
     );
   }
   user.password = req.body.password;
+  user.markModified("password");
   user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;
   await user.save();

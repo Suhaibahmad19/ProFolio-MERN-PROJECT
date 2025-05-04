@@ -68,6 +68,7 @@ export const addProject = catchAsyncErrors(async (req, res, next) => {
 });
 
 export const updateProject = catchAsyncErrors(async (req, res, next) => {
+  let project; // Declare project outside the if block!
   const newProject = {
     title: req.body.title,
     description: req.body.description,
@@ -79,7 +80,7 @@ export const updateProject = catchAsyncErrors(async (req, res, next) => {
   };
   if (req.files && req.files.image) {
     const image = req.files.image;
-    const project = await Project.findById(req.params.id);
+    project = await Project.findById(req.params.id);
     const imageId = project.image.public_id;
     await cloudinary.uploader.destroy(imageId);
     const cloudinaryImage = await cloudinary.uploader.upload(
@@ -105,7 +106,7 @@ export const updateProject = catchAsyncErrors(async (req, res, next) => {
   });
 });
 export const deleteProject = catchAsyncErrors(async (req, res, next) => {
-  const [id] = req.params;
+  const id = req.params.id;
   const project = await Project.findById(id);
   if (!project) {
     return next(new errorHandler("Project not found", 400));

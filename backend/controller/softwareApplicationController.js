@@ -35,7 +35,7 @@ export const addNewApplication = catchAsyncErrors(async (req, res, next) => {
   });
 });
 export const getAllApplications = catchAsyncErrors(async (req, res, next) => {
-  const applications = await Timeline.find();
+  const applications = await softwareApplication.find();
   if (!applications) {
     return next(new errorHandler("No applications found", 400));
   }
