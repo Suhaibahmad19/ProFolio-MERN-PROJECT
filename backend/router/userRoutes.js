@@ -19,7 +19,7 @@ router.post("/login", login);
 router.get("/logout", isAuthenticated, logout);
 router.get("/profile", isAuthenticated, getUser);
 router.put("/update/profile", isAuthenticated, updateProfile);
-router.get("/profile/portfolio", getProfileForPortfolio);
+router.get("/profile-portfolio", getProfileForPortfolio);
 router.put("/update/password", isAuthenticated, changePassword);
 router.post("/password/forgot", forgotPassword);
 router.put("/password/reset/:token", resetPassword);

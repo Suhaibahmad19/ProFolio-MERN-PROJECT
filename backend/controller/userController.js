@@ -167,7 +167,7 @@ export const updateProfile = catchAsyncErrors(async (req, res, next) => {
 
 export const getProfileForPortfolio = catchAsyncErrors(
   async (req, res, next) => {
-    const id = "680f5da374f1f0a380694f15";
+    const id = "6815289299a6b924d4e43c75";
     const user = await User.findById(id);
     if (!user) {
       return next(new errorHandler("User not found", 400));
